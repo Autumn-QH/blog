@@ -1,0 +1,7 @@
+<%- partial('header') %>
+<form method="post">
+  标题：<input type="text" name="title" value="<%= post.title %>" disabled="true" /><br />
+  正文：<textarea name="text" rows="20" cols="60"  ><%= post.text %></textarea><br />
+         <input type="submit" value="发布"/>
+</form>
+<%- partial('footer') %>

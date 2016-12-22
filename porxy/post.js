@@ -3,7 +3,7 @@ var Post = models.Post;
 var markdown = require('markdown').markdown;
 
 exports.get = function (cb) {
-  Post.find({}).sort('1').exec(function(err, data) {
+  Post.find({}).sort('-create_at').exec(function(err, data) {
     if(err){
       return cb(err);
     }
@@ -36,5 +36,34 @@ exports.getOne = function (name, time, title, cb) {
 };
 
 exports.getUser =function (name, cb) {
-  Post.find({name: name}).exec(cb);
+  Post.find({name: name}).exec(function(err, data) {
+    if(err){
+      return cb(err);
+    }
+    
+    data.forEach(function (doc) {
+      doc.text = markdown.toHTML(doc.text);
+    });
+    return cb(null, data);
+  });
+};
+
+exports.getEdit = function (name, time, title, cb) {
+  Post.findOne({name: name, create_at: time, title: title}).exec(function(err, data) {
+    if(err){
+      return cb(err);
+    }
+    return cb(null, data);
+  });
+};
+
+exports.setEdit = function (name,title, time, text, cb) {
+  var now = new Date().getTime()+'';
+  Post.update(
+    {name: name, create_at: time, title: title}, 
+    {$set: {text: text, update_at: now}}).exec(cb);
+};
+
+exports.remove = function (name, title, time, cb) {
+  Post.remove({name: name, title: title, create_at: time}).exec(cb);
 };

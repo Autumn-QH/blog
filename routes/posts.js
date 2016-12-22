@@ -61,7 +61,7 @@ router.get('/:name/:title/:time', function(req, res, next) {
       }
 
     res.render('article',{
-      title: name,
+      title: title,
       post: data
     });     
   });
@@ -69,17 +69,60 @@ router.get('/:name/:title/:time', function(req, res, next) {
 
 //更新文章页
 router.get('/edit/:name/:title/:time', checkLogin, function(req, res, next) {
-  res.send(req.flash());
+  var name = req.params.name;
+  var time = req.params.time;
+  var title = req.params.title;
+
+  Post.getEdit(name, time, title, function(err, data) {
+    if(err){
+        res.render('error', {
+          message: '数据库异常',
+          error: err
+        });
+      }
+
+    res.render('edit',{
+      title: '更新',
+      post: data
+    });     
+  });
 });
 
 //更新一篇文章
 router.post('/edit/:name/:title/:time', checkLogin, function(req, res, next) {
-  res.send(req.flash());
+  var name = req.params.name;
+  var time = req.params.time;
+  var title = req.params.title;
+  var text = req.body.text;
+  Post.setEdit(name, title, time, text, function(err) {
+    if(err){
+      res.render('error', {
+        message: '数据库异常',
+        error: err
+      });
+    }
+
+    req.flash('success', '更新成功');
+    res.redirect('/');
+  });
 });
 
 //删除一篇文章
 router.get('/remove/:name/:title/:time', checkLogin, function(req, res, next) {
-  res.send(req.flash());
+  var name = req.params.name;
+  var title = req.params.title;
+  var time = req.params.time;
+  Post.remove(name, title, time, function(err) {
+    if(err){
+      res.render('error', {
+        message: '数据库异常',
+        error: err
+      });
+    }
+
+    req.flash('success', '删除成功');
+    res.redirect('/');
+  });
 });
 
 //创建一条留言

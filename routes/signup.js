@@ -20,26 +20,26 @@ router.post('/', checkNotLogin, function(req, res, next) {
   if(password != password_re){
     req.flash('error', '两次密码输入不一致!');
     return res.redirect('/signup');
-    }
+  }
 
   User.getUserByname(name, function(err, user){
     if(user){
       req.flash('error', '用户名已存在');
       return res.redirect('/signup');
     }
-  });
 
-  User.setUser(name, password, email, function(err, user){
-    if(err){
-      res.render('error', {
-        message: '数据库异常',
-        error: err
-      });
-    }
+    User.setUser(name, password, email, function(err, user){
+      if(err){
+        res.render('error', {
+          message: '数据库异常',
+          error: err
+        });
+      }
 
-    req.session.user = user;
-    req.flash('success', '注册成功');
-    res.redirect('/');
+      req.session.user = user;
+      req.flash('success', '注册成功');
+      res.redirect('/');
+    });
   });
 });
 

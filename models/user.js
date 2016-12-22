@@ -12,4 +12,7 @@ var userSchema = new Schema({
   update_at: {type: Date, default: Date.now}
 });
 
+//索引,唯一的
+userSchema.index({name: 1}, {unique: true});
+
 mongoose.model('User', userSchema);
