@@ -10,7 +10,6 @@ var postSchema = new Schema({
 });
 
 //索引,唯一的
-postSchema.index({name: 1},{unique: true});
 postSchema.index({title: 1},{unique: true});
 
 postSchema.pre('update', function(next) {

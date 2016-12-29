@@ -1,0 +1,16 @@
+<% replys.forEach(function(reply, index) { %>
+  <p class="info">
+    <a href="/posts/<%= reply.user_name %>"><%= reply.user_name%></a>  |
+    回复于: <%= reply.create_at %> 
+  </p>
+  <p><%- reply.content %></p>
+<% }) %>
+
+<% if(user) { %>
+<p>添加回复<p>
+<form  method="post" action="/reply/create">
+  内容: <textarea name="content" rows="10" cols="60"></textarea>
+  <input type="hidden" name="post_id" value="<%= post._id %>">
+        <input type="submit" value="回复">
+</form>
+<% } %>

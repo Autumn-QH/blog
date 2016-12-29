@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var checkLogin = require('../middlewares/check').checkLogin;
-var Post = require('../porxy').Post;
+var porxy = require('../porxy');
+var Post = porxy.Post;
+var Reply = porxy.Reply;
 
 //发表文章页
 router.get('/create', checkLogin, function(req, res, next) {
@@ -58,12 +60,23 @@ router.get('/:name/:title/:time', function(req, res, next) {
           message: '数据库异常',
           error: err
         });
-      }
+    }
 
-    res.render('article',{
-      title: title,
-      post: data
-    });     
+    //获取回复
+    Reply.getReplyByPostId(data._id, function(err, reply) {
+      if(err){
+        res.render('error', {
+          message: '数据库异常',
+          error: err
+        });
+      }
+      
+      res.render('article',{
+        title: title,
+        post: data,
+        replys: reply
+      });     
+    });
   });
 });
 

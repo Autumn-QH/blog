@@ -22,4 +22,5 @@ module.exports = function (app) {
   app.use('/signup', require('./signup'));//注册
   app.use('/signout', require('./signout'));//登出
   app.use('/posts', require('./posts'));//文章
+  app.use('/reply', require('./reply'));//回复
 };
