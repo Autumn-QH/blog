@@ -24,4 +24,5 @@ module.exports = function (app) {
   app.use('/posts', require('./posts'));//文章
   app.use('/reply', require('./reply'));//回复
   app.use('/user', require('./user'));;//用户
+  app.use('/upload', require('./upload'));//上传图片
 };

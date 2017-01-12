@@ -99,6 +99,10 @@ if(app.get('env') === 'development') {
   });
 }
 
-app.listen(config.port, function() {
-  console.log('${pkg.name}, listening on port ,${config.port}');
-});
+if(module.parent){
+  module.exports = app;
+}else{
+  app.listen(config.port, function() {
+    console.log(`${pkg.name} listening on port ${config.port}`);
+  });
+}

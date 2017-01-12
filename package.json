@@ -4,7 +4,7 @@
   "description": "my first blog",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --harmony test"
   },
   "author": "Jack",
   "license": "ISC",
@@ -22,8 +22,10 @@
     "express-winston": "2.1.2",
     "lodash": "4.17.2",
     "markdown": "0.5.0",
+    "mocha": "3.2.0",
     "mongoose": "4.7.1",
     "multer": "1.2.0",
+    "supertest": "2.0.1",
     "utility": "1.9.0",
     "validator": "6.2.0",
     "winston": "2.3.0"
