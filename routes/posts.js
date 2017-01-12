@@ -33,6 +33,11 @@ router.post('/create', checkLogin, function(req, res, next) {
 //单独一篇的文章页
 router.get('/:id', function(req, res, next) {
   var id = req.params.id;
+  if(id.length !== 24){
+    res.render('error', {
+        message: '此话题不存在或已被删除。'
+    });
+  }
   Post.getOne(id, function(err, data) {
     if(err){
         res.render('error', {
@@ -43,10 +48,10 @@ router.get('/:id', function(req, res, next) {
     if(data === null){
       res.render('error', {
         message: '此话题不存在或已被删除。'
-      })
+      });
     }
     //获取回复
-    Reply.getReplyByPostId(data._id, function(err, reply) {
+    Reply.getReplyByPostId(data.id, function(err, reply) {
       if(err){
         res.render('error', {
           message: '数据库异常',
