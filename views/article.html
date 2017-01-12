@@ -1,12 +1,12 @@
 <%- partial('header') %>
 <% if(user && (user.name == post.name)){ %>
 <p>
-  <span><a class="edit" href="/posts/edit/<%= post.name %>/<%= post.title %>/<%= post.create_at %>">编辑</a></span>
-  <span><a class="edit" href="/posts/remove/<%= post.name %>/<%= post.title %>/<%= post.create_at %>">删除</a></span>
+  <span><a class="edit" href="/posts/edit/<%= post.id %>">编辑</a></span>
+  <span><a class="edit" href="/posts/remove/<%= post.id %>">删除</a></span>
 </p>
 <% } %>
   <p class="info">
-    作者: <a href="/posts/<%= post.name %>"><%= post.name%></a>
+    作者: <a href="/user/<%= post.name %>"><%= post.name%></a>
     日期: <%= post.create_at %> 
   </p>
   <p><%- post.text %></p>

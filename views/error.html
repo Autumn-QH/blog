@@ -8,6 +8,8 @@
 </head>
 <body>  
   <h1><%= message %></h1>
+  <% if(error) { %>
   <p><%= error.stack %></p>
+  <% } %>
 </body>
 </html>

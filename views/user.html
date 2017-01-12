@@ -1,8 +1,8 @@
 <%- partial('header') %>
   <% posts.forEach(function(post, index) { %>
-    <p><h2><a href="/posts/<%= post.name %>/<%= post.title %>/<%= post.create_at %>"><%= post.title%></a></h2></p>
+    <p><h2><a href="/posts/<%= post.id %>"><%= post.title%></a></h2></p>
     <p class="info">
-      作者: <a href="/posts/<%= post.name %>"><%= post.name%></a>  |
+      作者: <a href="/user/<%= post.name %>"><%= post.name%></a>  |
       日期: <%= post.create_at %> 
     </p>
     <p><%- post.text %></p>

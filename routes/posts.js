@@ -30,38 +30,21 @@ router.post('/create', checkLogin, function(req, res, next) {
   });
 });
 
-//特定用户的文章页
-router.get('/:name', function(req, res, next) {
-  var name = req.params.name;
-  Post.getUser(name, function(err, data) {
-    if(err){
-      res.render('error', {
-        message: '数据库异常',
-        error: err
-      });
-    }
-
-    res.render('user', {
-      title: name,
-      posts: data
-    })
-  });
-});
-
 //单独一篇的文章页
-router.get('/:name/:title/:time', function(req, res, next) {
-  var name = req.params.name;
-  var time = req.params.time;
-  var title = req.params.title;
-
-  Post.getOne(name, time, title, function(err, data) {
+router.get('/:id', function(req, res, next) {
+  var id = req.params.id;
+  Post.getOne(id, function(err, data) {
     if(err){
         res.render('error', {
           message: '数据库异常',
           error: err
         });
     }
-
+    if(data === null){
+      res.render('error', {
+        message: '此话题不存在或已被删除。'
+      })
+    }
     //获取回复
     Reply.getReplyByPostId(data._id, function(err, reply) {
       if(err){
@@ -72,7 +55,7 @@ router.get('/:name/:title/:time', function(req, res, next) {
       }
       
       res.render('article',{
-        title: title,
+        title: data.title,
         post: data,
         replys: reply
       });     
@@ -81,12 +64,10 @@ router.get('/:name/:title/:time', function(req, res, next) {
 });
 
 //更新文章页
-router.get('/edit/:name/:title/:time', checkLogin, function(req, res, next) {
-  var name = req.params.name;
-  var time = req.params.time;
-  var title = req.params.title;
+router.get('/edit/:id', checkLogin, function(req, res, next) {
+  var id = req.params.id;
 
-  Post.getEdit(name, time, title, function(err, data) {
+  Post.getEdit(id, function(err, data) {
     if(err){
         res.render('error', {
           message: '数据库异常',
@@ -102,12 +83,11 @@ router.get('/edit/:name/:title/:time', checkLogin, function(req, res, next) {
 });
 
 //更新一篇文章
-router.post('/edit/:name/:title/:time', checkLogin, function(req, res, next) {
-  var name = req.params.name;
-  var time = req.params.time;
-  var title = req.params.title;
+router.post('/edit/:id', checkLogin, function(req, res, next) {
+  var id = req.params.id;
   var text = req.body.text;
-  Post.setEdit(name, title, time, text, function(err) {
+
+  Post.setEdit(id, text, function(err) {
     if(err){
       res.render('error', {
         message: '数据库异常',
@@ -121,11 +101,10 @@ router.post('/edit/:name/:title/:time', checkLogin, function(req, res, next) {
 });
 
 //删除一篇文章
-router.get('/remove/:name/:title/:time', checkLogin, function(req, res, next) {
-  var name = req.params.name;
-  var title = req.params.title;
-  var time = req.params.time;
-  Post.remove(name, title, time, function(err) {
+router.get('/remove/:id', checkLogin, function(req, res, next) {
+  var id = req.params.id;
+ 
+  Post.remove(id, function(err) {
     if(err){
       res.render('error', {
         message: '数据库异常',
@@ -138,14 +117,5 @@ router.get('/remove/:name/:title/:time', checkLogin, function(req, res, next) {
   });
 });
 
-//创建一条留言
-router.post('/:postId/comment', checkLogin, function(req, res, next) {
-  res.send(req.flash());
-});
-
-//删除一条留言
-router.get('/:postId/comment/:commentId/remove', checkLogin, function(req, res, next){
-
-});
 
 module.exports = router;

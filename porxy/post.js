@@ -25,13 +25,16 @@ exports.set = function (name,title, text, cb) {
   post.save(cb);
 };
 
-exports.getOne = function (name, time, title, cb) {
-  Post.findOne({name: name, create_at: time, title: title}).exec(function(err, data) {
+exports.getOne = function (id, cb) {
+  Post.findOne({_id: id}).exec(function(err, data) {
     if(err){
       return cb(err);
     }
-    data.text = markdown.toHTML(data.text);
-    return cb(null, data);
+    if(data){
+      data.text = markdown.toHTML(data.text);
+      return cb(null,data);
+    }
+    return cb(null, null);
   });
 };
 
@@ -48,8 +51,8 @@ exports.getUser =function (name, cb) {
   });
 };
 
-exports.getEdit = function (name, time, title, cb) {
-  Post.findOne({name: name, create_at: time, title: title}).exec(function(err, data) {
+exports.getEdit = function (id, cb) {
+  Post.findOne({_id: id}).exec(function(err, data) {
     if(err){
       return cb(err);
     }
@@ -57,13 +60,13 @@ exports.getEdit = function (name, time, title, cb) {
   });
 };
 
-exports.setEdit = function (name,title, time, text, cb) {
+exports.setEdit = function (id, text, cb) {
   var now = new Date().getTime()+'';
   Post.update(
-    {name: name, create_at: time, title: title}, 
+    {_id: id}, 
     {$set: {text: text, update_at: now}}).exec(cb);
 };
 
-exports.remove = function (name, title, time, cb) {
-  Post.remove({name: name, title: title, create_at: time}).exec(cb);
+exports.remove = function (id, cb) {
+  Post.remove({_id: id}).exec(cb);
 };
