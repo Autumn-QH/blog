@@ -2,9 +2,10 @@
   "name": "blog",
   "version": "1.0.0",
   "description": "my first blog",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "mocha --harmony test"
+    "test": "mocha --harmony test",
+    "start": "NODE_ENV=production pm2 start app.js --node-args='--harmony' --name 'blog'"
   },
   "author": "Jack",
   "license": "ISC",

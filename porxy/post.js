@@ -3,14 +3,14 @@ var Post = models.Post;
 var markdown = require('markdown').markdown;
 
 exports.get = function (cb) {
-  Post.find({}).sort('-create_at').exec(function(err, data) {
+  Post.find({},{text:0}).sort('-create_at').exec(function(err, data) {
     if(err){
       return cb(err);
     }
     
-    data.forEach(function (doc) {
-      doc.text = markdown.toHTML(doc.text);
-    });
+    // data.forEach(function (doc) {
+    //   doc.text = markdown.toHTML(doc.text);
+    // });
     return cb(null, data);
   });
 };
