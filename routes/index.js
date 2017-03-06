@@ -4,18 +4,23 @@ var Post = require('../porxy').Post;
 
 module.exports = function (app) {
   app.get('/', function(req, res, next) {
-    Post.get(function(err, data) {
+    var page = parseInt(req.query.p) || 1;
+
+    Post.get(page, function(err, data, total) {
       if(err){
         res.render('error', {
           message: '数据库异常',
           error: err
         });
       }
-
+ 
       res.render('index', {
         title: '主页',
-        posts: data
-      })
+        posts: data,
+        page:page,
+        isFirstPage:(page-1) == 0,
+        isLastPage:((page-1) * 10 + data.length) == total
+      });
     });
 });
   app.use('/signin', require('./signin'));//登录

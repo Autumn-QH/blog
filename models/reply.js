@@ -7,8 +7,8 @@ var ReplySchema = new Schema({
   post_id: ObjectId,
   user_name: String,
   reply_id: {type: ObjectId, default: ObjectId},
-  create_at: String,
-  update_at: String,
+  create_at: {type: Date, defaule: Date.now},
+  update_at: {type: Date, defaule: Date.now},
   deleted: {type: Boolean, default: false}
 });
 

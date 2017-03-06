@@ -20,7 +20,7 @@ exports.set = function (content, post_id, user_name, cb) {
   reply.content = content;
   reply.post_id = post_id;
   reply.user_name = user_name;
-  reply.create_at = new Date().getTime();
-  reply.update_at = new Date().getTime();
+  reply.create_at = new Date();
+  reply.update_at = new Date();
   reply.save(cb);
 };

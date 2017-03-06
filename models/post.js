@@ -5,8 +5,8 @@ var postSchema = new Schema({
   name: String,
   title: String,
   text: String,
-  create_at: String,
-  update_at: String
+  create_at: {type: Date, default: Date.now},
+  update_at: {type: Date, default: Date.now}
 });
 
 //索引,唯一的

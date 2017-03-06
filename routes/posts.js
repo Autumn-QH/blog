@@ -17,17 +17,31 @@ router.post('/create', checkLogin, function(req, res, next) {
   var title = req.body['title'];
   var text = req.body['text'];
   var name = req.session.user.name;
-  Post.set(name,title, text, function(err, post) {
+  Post.getOneByTitle(title, function(err, data) {
     if(err){
       res.render('error', {
         message: '数据库异常',
         error: err
       });
     }
+    if(!data){
+      Post.set(name,title, text, function(err, post) {
+        if(err){
+          res.render('error', {
+            message: '数据库异常',
+            error: err
+          });
+        }
     
-    req.flash('success', '发表成功');
-    res.redirect('/');
+        req.flash('success', '发表成功');
+        res.redirect('/');
+      });
+    }else{
+      req.flash('error','标题重复');
+      res.redirect('back');
+    }
   });
+  
 });
 
 //单独一篇的文章页

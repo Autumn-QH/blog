@@ -2,17 +2,26 @@ var models = require('../models');
 var Post = models.Post;
 var markdown = require('markdown').markdown;
 
-exports.get = function (cb) {
-  Post.find({},{text:0}).sort('-create_at').exec(function(err, data) {
+exports.get = function (page, cb) {
+  Post.count({}).exec(function(err, count) {
     if(err){
       return cb(err);
+    }else{
+      Post.find({},{text:0}).limit(10).skip((page-1)*10).sort('-create_at').exec(function(err, data) {
+        return cb(null, data, count);
+      });
     }
-    
-    // data.forEach(function (doc) {
-    //   doc.text = markdown.toHTML(doc.text);
-    // });
-    return cb(null, data);
   });
+  // Post.find({},{text:0}).limit().skip().sort('-create_at').exec(function(err, data) {
+  //   if(err){
+  //     return cb(err);
+  //   }
+    
+  //   // data.forEach(function (doc) {
+  //   //   doc.text = markdown.toHTML(doc.text);
+  //   // });
+  //   return cb(null, data);
+  // });
 };
 
 exports.set = function (name,title, text, cb) {
@@ -20,9 +29,17 @@ exports.set = function (name,title, text, cb) {
   post.name = name;
   post.title = title;
   post.text = text;
-  post.create_at = new Date().getTime();
-  post.update_at = new Date().getTime();
+  post.create_at = new Date();
+  post.update_at = new Date();
   post.save(cb);
+};
+exports.getOneByTitle = function (title,cb) {
+  Post.findOne({title: title}).exec(function(err, data) {
+    if(err){
+      return cb(err);
+    }
+    cb(null,data);
+  });
 };
 
 exports.getOne = function (id, cb) {
