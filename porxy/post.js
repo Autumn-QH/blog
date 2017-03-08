@@ -12,27 +12,19 @@ exports.get = function (page, cb) {
       });
     }
   });
-  // Post.find({},{text:0}).limit().skip().sort('-create_at').exec(function(err, data) {
-  //   if(err){
-  //     return cb(err);
-  //   }
-    
-  //   // data.forEach(function (doc) {
-  //   //   doc.text = markdown.toHTML(doc.text);
-  //   // });
-  //   return cb(null, data);
-  // });
 };
 
-exports.set = function (name,title, text, cb) {
+exports.set = function (name,title, text, tags, cb) {
   var post = new Post();
   post.name = name;
   post.title = title;
   post.text = text;
+  post.tags = tags;
   post.create_at = new Date();
   post.update_at = new Date();
   post.save(cb);
 };
+
 exports.getOneByTitle = function (title,cb) {
   Post.findOne({title: title}).exec(function(err, data) {
     if(err){
@@ -79,11 +71,18 @@ exports.getEdit = function (id, cb) {
 
 exports.setEdit = function (id, text, cb) {
   var now = new Date().getTime()+'';
-  Post.update(
-    {_id: id}, 
+  Post.update({_id: id}, 
     {$set: {text: text, update_at: now}}).exec(cb);
 };
 
 exports.remove = function (id, cb) {
   Post.remove({_id: id}).exec(cb);
+};
+
+exports.getTags = function (cb) {
+  Post.distinct('tags',{}).exec(cb);
+};
+
+exports.getTag = function (tag, cb) {
+  Post.find({tags: tag},{_id: 1, title: 1, create_at: 1}).exec(cb);
 };

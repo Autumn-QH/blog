@@ -17,6 +17,8 @@ router.post('/create', checkLogin, function(req, res, next) {
   var title = req.body['title'];
   var text = req.body['text'];
   var name = req.session.user.name;
+  var tags = [req.body['tag1'], req.body['tag2'], req.body['tag3']];
+
   Post.getOneByTitle(title, function(err, data) {
     if(err){
       res.render('error', {
@@ -25,7 +27,7 @@ router.post('/create', checkLogin, function(req, res, next) {
       });
     }
     if(!data){
-      Post.set(name,title, text, function(err, post) {
+      Post.set(name,title, text, tags, function(err, post) {
         if(err){
           res.render('error', {
             message: '数据库异常',

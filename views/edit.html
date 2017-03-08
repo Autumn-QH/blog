@@ -1,7 +1,11 @@
 <%- partial('header') %>
 <form method="post">
-  标题：<input type="text" name="title" value="<%= post.title %>" disabled="true" /><br />
-  正文：<textarea name="text" rows="20" cols="60"  ><%= post.text %></textarea><br />
+  标题：<input type="text" name="title" value="<%= post.title %>" disabled="true" /><br>
+  标签：
+  <input type="text" name="tag1" value="<%= post.tags[0] %>" disabled="true" >
+  <input type="text" name="tag2" value="<%= post.tags[1] %>" disabled="true" >
+  <input type="text" name="tag3" value="<%= post.tags[2] %>" disabled="true" > <br>
+  正文：<textarea name="text" rows="20" cols="60"  ><%= post.text %></textarea><br>
          <input type="submit" value="发布"/>
 </form>
 <%- partial('footer') %>

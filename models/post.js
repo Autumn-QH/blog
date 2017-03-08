@@ -5,6 +5,7 @@ var postSchema = new Schema({
   name: String,
   title: String,
   text: String,
+  tags: [],
   create_at: {type: Date, default: Date.now},
   update_at: {type: Date, default: Date.now}
 });

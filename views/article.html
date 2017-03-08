@@ -7,7 +7,12 @@
 <% } %>
   <p class="info">
     作者: <a href="/user/<%= post.name %>"><%= post.name%></a>
-    日期: <%= post.create_at %> 
+    日期: <%= post.create_at %>
+    标签：<% post.tags.forEach(function(tag, index) { %>
+              <% if(tag) { %>
+                <a class="tag" href="/tags/<%= tag %>"><%= tag %></a>>
+              <% } %>
+            <%  }) %> 
   </p>
   <p><%- post.text %></p>
 <%- partial('reply') %>  

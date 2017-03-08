@@ -30,4 +30,5 @@ module.exports = function (app) {
   app.use('/reply', require('./reply'));//回复
   app.use('/user', require('./user'));;//用户
   app.use('/upload', require('./upload'));//上传图片
+  app.use('/tags', require('./tag'));//标签
 };
