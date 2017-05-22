@@ -1,0 +1,9 @@
+<%- partial('header') %>
+<ul class="archive">
+<% posts.forEach(function (post, index) { %>
+    <!-- <li><time><%= post.create_at %></time></li> -->
+    <li><a href="/posts/<%= post.id %>"><%= post.title %></a></li>
+
+<% }) %>    
+</ul>
+<%- partial('footer') %>

@@ -40,7 +40,7 @@ exports.getOne = function (id, cb) {
       return cb(err);
     }
     if(data){
-      data.text = markdown.toHTML(data.text);
+      //data.text = markdown.toHTML(data.text);
       return cb(null,data);
     }
     return cb(null, null);
@@ -53,9 +53,9 @@ exports.getUser =function (name, cb) {
       return cb(err);
     }
     
-    data.forEach(function (doc) {
-      doc.text = markdown.toHTML(doc.text);
-    });
+    // data.forEach(function (doc) {
+    //   doc.text = markdown.toHTML(doc.text);
+    // });
     return cb(null, data);
   });
 };
@@ -85,4 +85,9 @@ exports.getTags = function (cb) {
 
 exports.getTag = function (tag, cb) {
   Post.find({tags: tag},{_id: 1, title: 1, create_at: 1}).exec(cb);
+};
+
+exports.search = function(keywork, cb) {
+  var keywork = new RegExp(keywork, 'i');
+  Post.find({title: keywork},{text:0}).sort('-create_at').exec(cb);
 };

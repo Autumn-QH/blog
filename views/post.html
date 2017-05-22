@@ -2,7 +2,9 @@
 <form method="post">
   标题：<input type="text" name="title"><br>
   标签：<input type="text" name="tag1"><input type="text" name="tag2"><input type="text" name="tag3"><br>
-  正文：<textarea name="text" rows="20" cols="60"  ></textarea><br>
+<!--   正文：<textarea name="text" rows="20" cols="60"  ></textarea><br> -->
+	正文：<script id='editor' type="text/plain"  name="text" style="width:700px;height:500px;"></script>
          <input type="submit" value="发布">
 </form>
+<%- partial('editor.html') %>
 <%- partial('footer') %>

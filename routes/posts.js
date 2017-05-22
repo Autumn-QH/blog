@@ -49,6 +49,7 @@ router.post('/create', checkLogin, function(req, res, next) {
 //单独一篇的文章页
 router.get('/:id', function(req, res, next) {
   var id = req.params.id;
+
   if(id.length !== 24){
     res.render('error', {
         message: '此话题不存在或已被删除。'
